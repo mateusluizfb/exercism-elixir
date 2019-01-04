@@ -5,7 +5,7 @@ defmodule Bob do
   end
 
   def question?(text) do
-    String.match? text, ~r/([a-z]\?|[0-9]\?)/
+    String.ends_with? text, "?"
   end
 
   def uppercase_shouting?(text) do
