@@ -1,21 +1,19 @@
 defmodule Bob do
 
-  def uppercase?(text), do: text == String.upcase(text)
+  defp uppercase?(text), do: text == String.upcase(text)
 
-  def question?(text), do: String.ends_with?(text, "?")
-
-  def shout?(text), do: String.ends_with?(text, "!")
+  defp question?(text), do: String.ends_with?(text, "?")
 
   def blank?(text), do: String.trim(text) == ""
 
-  def only_letters?(text), do: String.match?(text, ~r/\p{L}/)
+  def only_letters?(text), do: String.upcase(text) != String.downcase(text)
 
   def simple_question?(text) do
     question?(text)
   end
 
   def uppercase_question?(text) do
-    question?(text) && uppercase?(text) && only_letters?(text)
+    uppercase?(text) && question?(text) && only_letters?(text)
   end
 
   def uppercase_shouting?(text) do
