@@ -4,9 +4,9 @@ defmodule Bob do
 
   defp question?(text), do: String.ends_with?(text, "?")
 
-  def blank?(text), do: String.trim(text) == ""
+  defp only_letters?(text), do: String.upcase(text) != String.downcase(text)
 
-  def only_letters?(text), do: String.upcase(text) != String.downcase(text)
+  def blank?(text), do: String.trim(text) == ""
 
   def simple_question?(text) do
     question?(text)
@@ -19,7 +19,6 @@ defmodule Bob do
   def uppercase_shouting?(text) do
     uppercase?(text) && only_letters?(text)
   end
-
 
   def hey(input) do
     cond do
