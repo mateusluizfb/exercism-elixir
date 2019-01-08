@@ -6,19 +6,13 @@ defmodule Bob do
 
   defp only_letters?(text), do: String.upcase(text) != String.downcase(text)
 
-  def blank?(text), do: String.trim(text) == ""
+  defp blank?(text), do: String.trim(text) == ""
 
-  def simple_question?(text) do
-    question?(text)
-  end
+  defp simple_question?(text), do: question?(text)
 
-  def uppercase_question?(text) do
-    uppercase?(text) && question?(text) && only_letters?(text)
-  end
+  defp uppercase_question?(text), do: uppercase?(text) && question?(text) && only_letters?(text)
 
-  def uppercase_shouting?(text) do
-    uppercase?(text) && only_letters?(text)
-  end
+  defp uppercase_shouting?(text), do: uppercase?(text) && only_letters?(text)
 
   def hey(input) do
     cond do
