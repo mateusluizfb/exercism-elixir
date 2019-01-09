@@ -1,5 +1,9 @@
 defmodule Words do
 
+  defp words_list(sentence) do
+    Regex.replace(~r/[^\w\s]/, sentence, " ") |> String.split
+  end
+
   defp count_words([], map), do: map
 
   defp count_words(string_list, map) do
@@ -20,7 +24,7 @@ defmodule Words do
   """
   @spec count(String.t()) :: map
   def count(sentence) do
-    string_list = String.split(sentence)
+    string_list = words_list(sentence)
     count_words string_list, %{}
   end
 end
