@@ -1,7 +1,10 @@
 defmodule Words do
 
   defp words_list(sentence) do
-    Regex.replace(~r/[^\w\s]/, sentence, " ") |> String.split
+    new_sentence = Regex.replace(~r/[^\w\s\-]/u, sentence, " ")
+    String.replace(new_sentence, "_", " ")
+      |> String.downcase
+      |> String.split
   end
 
   defp count_words([], map), do: map
