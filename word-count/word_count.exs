@@ -1,10 +1,16 @@
 defmodule Words do
 
-  defp create_map(string_array, map) do
-    # [head | tail] = string_array
-    # create_map(tail)
-    # Map.put(map, string_array[0], 1)
-    Map.new(string_array, fn elem -> {elem, 1} end)
+  defp count_words([], map), do: map
+
+  defp count_words(string_list, map) do
+    [head | tail] = string_list
+
+    new_map = case Map.has_key?(map, head) do
+      true  -> Map.put(map, head, (map[head] + 1))
+      false -> Map.put(map, head, 1)
+    end
+
+    count_words(tail, new_map)
   end
 
   @doc """
@@ -14,7 +20,7 @@ defmodule Words do
   """
   @spec count(String.t()) :: map
   def count(sentence) do
-    string_array = String.split(sentence)
-    create_map string_array, %{}
+    string_list = String.split(sentence)
+    count_words string_list, %{}
   end
 end

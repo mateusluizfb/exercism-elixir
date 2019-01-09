@@ -1,9 +1,13 @@
 if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("word_count.exs", __DIR__)
 end
+# :debugger.start()
+# :int.ni(Words)
+# :int.break(Words, 6)
 
 ExUnit.start()
 ExUnit.configure(exclude: :pending, trace: true)
+
 
 defmodule WordsTest do
   use ExUnit.Case
@@ -17,7 +21,6 @@ defmodule WordsTest do
     assert Words.count("one of each") == expected
   end
 
-  @tag :pending
   test "count multiple occurrences" do
     expected = %{"one" => 1, "fish" => 4, "two" => 1, "red" => 1, "blue" => 1}
     assert Words.count("one fish two fish red fish blue fish") == expected
