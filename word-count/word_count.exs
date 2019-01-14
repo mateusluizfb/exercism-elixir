@@ -11,12 +11,7 @@ defmodule Words do
 
   defp count_words(string_list, map) do
     [head | tail] = string_list
-
-    new_map = case Map.has_key?(map, head) do
-      true  -> Map.put(map, head, (map[head] + 1))
-      false -> Map.put(map, head, 1)
-    end
-
+    new_map = Map.update(map, head, 1, &(&1 + 1))
     count_words(tail, new_map)
   end
 
