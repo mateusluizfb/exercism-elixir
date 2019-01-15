@@ -1,8 +1,11 @@
 defmodule Words do
 
+  defp normalize_sentence(sentence) do
+    String.replace(sentence, "_", " ") |> String.downcase
+  end
+
   defp words_list(sentence) do
-    new_sentence = String.replace(sentence, "_", " ") |> String.downcase
-    String.split(new_sentence, ~r/[^\w\-]/u, trim: true)
+    String.split(normalize_sentence(sentence), ~r/[^\w\-]/u, trim: true)
   end
 
   defp count_words([], map), do: map
