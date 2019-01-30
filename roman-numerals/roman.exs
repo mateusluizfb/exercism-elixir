@@ -4,6 +4,21 @@ defmodule Roman do
     convert(roman_numeral) <> convert(number - roman_numeral)
   end
 
+  defp convert(number) do
+    cond do
+      (number - 1000 >= 0) -> create_roman_numeral(1000, number)
+      (number - 900 >= 0)  -> create_roman_numeral(900, number)
+      (number - 500 >= 0)  -> create_roman_numeral(500, number)
+      (number - 400 >= 0)  -> create_roman_numeral(400, number)
+      (number - 100 >= 0)  -> create_roman_numeral(100, number)
+      (number - 90 >= 0)   -> create_roman_numeral(90, number)
+      (number - 50 >= 0)   -> create_roman_numeral(50, number)
+      (number - 40 >= 0)   -> create_roman_numeral(40, number)
+      (number - 10 >= 0)   -> create_roman_numeral(10, number)
+      true                 -> convert(number)
+    end
+  end
+
   defp convert(0),  do: ""
   defp convert(1),  do: "I"
   defp convert(2),  do: "II"
@@ -27,22 +42,6 @@ defmodule Roman do
 
   defp convert(900),  do: "CM"
   defp convert(1000), do: "M"
-
-  defp convert(number) do
-    cond do
-      (number - 1000 >= 0) -> create_roman_numeral(1000, number)
-      (number - 900 >= 0)  -> create_roman_numeral(900, number)
-      (number - 500 >= 0)  -> create_roman_numeral(500, number)
-      (number - 400 >= 0)  -> create_roman_numeral(400, number)
-      (number - 100 >= 0)  -> create_roman_numeral(100, number)
-      (number - 90 >= 0)   -> create_roman_numeral(90, number)
-      (number - 50 >= 0)   -> create_roman_numeral(50, number)
-      (number - 40 >= 0)   -> create_roman_numeral(40, number)
-      (number - 10 >= 0)   -> create_roman_numeral(10, number)
-      true                 -> convert(number)
-    end
-  end
-
 
   @doc """
   Convert the number to a roman number.
