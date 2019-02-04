@@ -1,5 +1,10 @@
 defmodule BeerSong do
-
+  def verse(0) do
+    """
+    No more bottles of beer on the wall, no more bottles of beer.
+    Go to the store and buy some more, 99 bottles of beer on the wall.
+    """
+  end
 
   def verse(1) do
     """
@@ -13,15 +18,24 @@ defmodule BeerSong do
   """
   @spec verse(integer) :: String.t()
   def verse(number) do
-    # Your implementation here...
     remaining_beers = number - 1
 
-    verse_text = """
-    #{number} bottles of beer on the wall, #{number} bottles of beer.
-    Take one down and pass it around, #{remaining_beers} bottles of beer on the wall.
-    """
+    bottle_word = cond do
+      remaining_beers > 1 -> "bottles"
+      true                -> "bottle"
+    end
 
-    verse_text
+    """
+    #{number} bottles of beer on the wall, #{number} bottles of beer.
+    Take one down and pass it around, #{remaining_beers} #{bottle_word} of beer on the wall.
+    """
+  end
+
+  def create_verse(0), do: verse(0)
+  def create_verse(n), do: verse(n) <> "\n"
+
+  def lyrics() do
+    to_string Enum.map(99..0, &create_verse/1)
   end
 
   @doc """
@@ -29,6 +43,6 @@ defmodule BeerSong do
   """
   @spec lyrics(Range.t()) :: String.t()
   def lyrics(range) do
-    # Your implementation here...
+    to_string Enum.map(range, &create_verse/1)
   end
 end
