@@ -13,6 +13,13 @@ defmodule BeerSong do
     """
   end
 
+  def verse(2) do
+    """
+    2 bottles of beer on the wall, 2 bottles of beer.
+    Take one down and pass it around, 1 bottle of beer on the wall.
+    """
+  end
+
   @doc """
   Get a single verse of the beer song
   """
@@ -20,14 +27,9 @@ defmodule BeerSong do
   def verse(number) do
     remaining_beers = number - 1
 
-    bottle_word = cond do
-      remaining_beers > 1 -> "bottles"
-      true                -> "bottle"
-    end
-
     """
     #{number} bottles of beer on the wall, #{number} bottles of beer.
-    Take one down and pass it around, #{remaining_beers} #{bottle_word} of beer on the wall.
+    Take one down and pass it around, #{remaining_beers} bottles of beer on the wall.
     """
   end
 
