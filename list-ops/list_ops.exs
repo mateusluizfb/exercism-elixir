@@ -5,19 +5,21 @@ defmodule ListOps do
   # for adding numbers), but please do not use Kernel functions for Lists like
   # `++`, `--`, `hd`, `tl`, `in`, and `length`.
 
-  def count([]), do: 0
 
   @spec count(list) :: non_neg_integer
-  def count([_ | tail]) do
-    1 + count(tail)
-  end
+  def count([]), do: 0
+  def count([_ | tail]), do: 1 + count(tail)
+
 
   @spec reverse(list) :: list
-  def reverse(l) do
+  def reverse([], reversed_list), do: reversed_list
+  def reverse([head | tail], reversed_list \\ []) do
+    reverse(tail, [head | reversed_list])
   end
 
   @spec map(list, (any -> any)) :: list
   def map(l, f) do
+    []
   end
 
   @spec filter(list, (any -> as_boolean(term))) :: list
