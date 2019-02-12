@@ -22,8 +22,10 @@ defmodule ListOps do
   def map([head | tail], f), do: [f.(head) | map(tail, f)]
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter(l, f) do
-  end
+  def filter([], f), do: []
+  def filter([head | tail], f, false), do: filter(tail, f)
+  def filter([head | tail], f, true), do: [head | filter(tail, f)]
+  def filter([head | tail], f), do: filter([head | tail], f, f.(head))
 
   @type acc :: any
   @spec reduce(list, acc, (any, acc -> acc)) :: acc
