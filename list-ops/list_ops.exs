@@ -12,23 +12,25 @@ defmodule ListOps do
 
 
   @spec reverse(list) :: list
+  def reverse(tail, reversed_list \\ [])
   def reverse([], reversed_list), do: reversed_list
-  def reverse([head | tail], reversed_list \\ []) do
+  def reverse([head | tail], reversed_list) do
     reverse(tail, [head | reversed_list])
   end
 
   @spec map(list, (any -> any)) :: list
-  def map([], f), do: []
+  def map([], _), do: []
   def map([head | tail], f), do: [f.(head) | map(tail, f)]
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter([], f), do: []
-  def filter([head | tail], f, false), do: filter(tail, f)
+  def filter([_ | tail], f, false), do: filter(tail, f)
   def filter([head | tail], f, true), do: [head | filter(tail, f)]
+  def filter([], _), do: []
   def filter([head | tail], f), do: filter([head | tail], f, f.(head))
 
   @type acc :: any
   @spec reduce(list, acc, (any, acc -> acc)) :: acc
+  def reduce([], acc, f), do: acc
   def reduce(l, acc, f) do
   end
 
