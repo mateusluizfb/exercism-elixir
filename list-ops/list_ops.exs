@@ -5,16 +5,14 @@ defmodule ListOps do
   # for adding numbers), but please do not use Kernel functions for Lists like
   # `++`, `--`, `hd`, `tl`, `in`, and `length`.
 
-
   @spec count(list) :: non_neg_integer
   def count([]), do: 0
   def count([_ | tail]), do: 1 + count(tail)
 
-
   @spec reverse(list) :: list
   def reverse(tail, reversed_list \\ [])
   def reverse([], reversed_list), do: reversed_list
-  def reverse([head | tail], reversed_list) do
+  def reverse([head | tail], reversed_list), do
     reverse(tail, [head | reversed_list])
   end
 
