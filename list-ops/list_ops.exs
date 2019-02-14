@@ -12,7 +12,7 @@ defmodule ListOps do
   @spec reverse(list) :: list
   def reverse(tail, reversed_list \\ [])
   def reverse([], reversed_list), do: reversed_list
-  def reverse([head | tail], reversed_list), do
+  def reverse([head | tail], reversed_list) do
     reverse(tail, [head | reversed_list])
   end
 
