@@ -34,10 +34,14 @@ defmodule ListOps do
   def reduce([head | tail], acc, f), do: reduce(tail, f.(head, acc), f)
 
   @spec append(list, list) :: list
-  def append(a, b) do
-  end
+  def append([], []), do: []
+  def append([], b), do: b
+  def append(a, []), do: a
+  def append([head_a | tail_a], b), do: [head_a | append(tail_a, b)]
 
   @spec concat([[any]]) :: [any]
-  def concat(ll) do
+  def concat([]), do: []
+  def concat([head | tail]) do
+    # append(head, concat(tail))
   end
 end
