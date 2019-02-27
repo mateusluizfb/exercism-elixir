@@ -18,11 +18,7 @@ defmodule Markdown do
   defp process(t) do
     first_char = String.first t
 
-    if String.starts_with?(t, "#") || String.starts_with?(t, "*") do
-      parse_md_level(first_char, t)
-    else
-      enclose_with_paragraph_tag(String.split(t))
-    end
+    parse_md_level(first_char, t)
   end
 
   defp parse_md_level("#", hwt) do
@@ -33,6 +29,10 @@ defmodule Markdown do
   defp parse_md_level("*", l) do
     t = String.split(String.trim_leading(l, "* "))
     "<li>" <> join_words_with_tags(t) <> "</li>"
+  end
+
+  defp parse_md_level(_, t) do
+    enclose_with_paragraph_tag(String.split(t))
   end
 
   defp enclose_with_header_tag({hl, htl}) do
