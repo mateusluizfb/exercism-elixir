@@ -16,8 +16,7 @@ defmodule Markdown do
   end
 
   defp process(t) do
-    first_char = String.first t
-
+    first_char = String.first(t)
     parse_md_level(first_char, t)
   end
 
@@ -27,8 +26,8 @@ defmodule Markdown do
   end
 
   defp parse_md_level("*", l) do
-    t = String.split(String.trim_leading(l, "* "))
-    "<li>" <> join_words_with_tags(t) <> "</li>"
+    t = String.trim_leading(l, "* ") |> String.split
+    "<li>#{join_words_with_tags(t)}</li>"
   end
 
   defp parse_md_level(_, t) do
