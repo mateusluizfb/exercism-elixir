@@ -18,13 +18,13 @@ defmodule Markdown do
   end
 
   defp process(t) do
-    first_char = String.first(t)
-    [h | tail] = String.split(t)
-    parse_md_level(first_char, [h | tail])
+    parse_md_level String.first(t), String.split(t)
   end
 
   defp parse_md_level("#", [h | t]) do
-    enclose_with_header_tag String.length(h), Enum.join(t, " ")
+    hl = String.length(h)
+    htl = Enum.join(t, " ")
+    "<h#{hl}>#{htl}</h#{hl}>"
   end
 
   defp parse_md_level("*", word_list) do
@@ -33,15 +33,7 @@ defmodule Markdown do
   end
 
   defp parse_md_level(_, word_list) do
-    enclose_with_paragraph_tag(word_list)
-  end
-
-  defp enclose_with_header_tag(hl, htl) do
-    "<h#{hl}>#{htl}</h#{hl}>"
-  end
-
-  defp enclose_with_paragraph_tag(t) do
-    "<p>#{join_words_with_tags(t)}</p>"
+    "<p>#{join_words_with_tags(word_list)}</p>"
   end
 
   defp join_words_with_tags(t) do
@@ -49,7 +41,7 @@ defmodule Markdown do
   end
 
   defp replace_md_with_tag(w) do
-    replace_suffix_md(replace_prefix_md(w))
+    replace_prefix_md(w) |> replace_suffix_md
   end
 
   defp replace_prefix_md(w) do
