@@ -22,7 +22,7 @@ defmodule Markdown do
 
   defp parse_md_level("#", hwt) do
     [h | t] = String.split(hwt)
-     enclose_with_header_tag{to_string(String.length(h)), Enum.join(t, " ")}
+    enclose_with_header_tag to_string(String.length(h)), Enum.join(t, " ")
   end
 
   defp parse_md_level("*", l) do
@@ -34,8 +34,8 @@ defmodule Markdown do
     enclose_with_paragraph_tag(String.split(t))
   end
 
-  defp enclose_with_header_tag({hl, htl}) do
-    "<h" <> hl <> ">" <> htl <> "</h" <> hl <> ">"
+  defp enclose_with_header_tag(hl, htl) do
+    "<h#{hl}>#{htl}</h#{hl}>"
   end
 
   defp enclose_with_paragraph_tag(t) do
