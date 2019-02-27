@@ -12,26 +12,28 @@ defmodule Markdown do
   """
   @spec parse(String.t()) :: String.t()
   def parse(m) do
-    patch(Enum.join(Enum.map(String.split(m, "\n"), fn t -> process(t) end)))
+    Enum.map(String.split(m, "\n"), &process/1)
+      |> Enum.join
+      |> patch
   end
 
   defp process(t) do
     first_char = String.first(t)
-    parse_md_level(first_char, t)
+    [h | tail] = String.split(t)
+    parse_md_level(first_char, [h | tail])
   end
 
-  defp parse_md_level("#", hwt) do
-    [h | t] = String.split(hwt)
-    enclose_with_header_tag to_string(String.length(h)), Enum.join(t, " ")
+  defp parse_md_level("#", [h | t]) do
+    enclose_with_header_tag String.length(h), Enum.join(t, " ")
   end
 
-  defp parse_md_level("*", l) do
-    t = String.trim_leading(l, "* ") |> String.split
-    "<li>#{join_words_with_tags(t)}</li>"
+  defp parse_md_level("*", word_list) do
+    filtered_list = Enum.filter(word_list, fn elem -> elem != "*" end)
+    "<li>#{join_words_with_tags(filtered_list)}</li>"
   end
 
-  defp parse_md_level(_, t) do
-    enclose_with_paragraph_tag(String.split(t))
+  defp parse_md_level(_, word_list) do
+    enclose_with_paragraph_tag(word_list)
   end
 
   defp enclose_with_header_tag(hl, htl) do
