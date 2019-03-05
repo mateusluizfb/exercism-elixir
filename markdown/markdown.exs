@@ -37,27 +37,12 @@ defmodule Markdown do
   end
 
   defp join_words_with_tags(t) do
-    Enum.join(Enum.map(t, fn w -> replace_md_with_tag(w) end), " ")
+    Enum.join(t, " ") |> replace_tags
   end
 
-  defp replace_md_with_tag(w) do
-    replace_prefix_md(w) |> replace_suffix_md
-  end
-
-  defp replace_prefix_md(w) do
-    cond do
-      w =~ ~r/^#{"__"}{1}/ -> String.replace(w, ~r/^#{"__"}{1}/, "<strong>", global: false)
-      w =~ ~r/^[#{"_"}{1}][^#{"_"}+]/ -> String.replace(w, ~r/_/, "<em>", global: false)
-      true -> w
-    end
-  end
-
-  defp replace_suffix_md(w) do
-    cond do
-      w =~ ~r/#{"__"}{1}$/ -> String.replace(w, ~r/#{"__"}{1}$/, "</strong>")
-      w =~ ~r/[^#{"_"}{1}]/ -> String.replace(w, ~r/_/, "</em>")
-      true -> w
-    end
+  defp replace_tags(text) do
+    String.replace(text, ~r/\__(.*?)\__/, "<strong>\\1</strong>")
+      |> String.replace(~r/\_(.*?)\_/, "<em>\\1</em>")
   end
 
   defp patch(l) do
