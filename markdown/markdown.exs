@@ -11,45 +11,41 @@ defmodule Markdown do
     "<h1>Header!</h1><ul><li><em>Bold Item</em></li><li><i>Italic Item</i></li></ul>"
   """
   @spec parse(String.t()) :: String.t()
-  def parse(m) do
-    Enum.map(String.split(m, "\n"), &process/1)
+  def parse(markdown) do
+    String.split(markdown, "\n")
+      |> Enum.map(&process/1)
       |> Enum.join
       |> patch
   end
 
-  defp process(t) do
-    parse_md_level String.first(t), String.split(t)
+  defp process(text) do
+    parse_row String.first(text), String.split(text)
   end
 
-  defp parse_md_level("#", [h | t]) do
-    hl = String.length(h)
-    htl = Enum.join(t, " ")
-    "<h#{hl}>#{htl}</h#{hl}>"
+  defp parse_row("#", [head | tail]) do
+    header_length = String.length(head)
+    header_text = Enum.join(tail, " ")
+
+    "<h#{header_length}>#{header_text}</h#{header_length}>"
   end
 
-  defp parse_md_level("*", word_list) do
-    filtered_list = Enum.filter(word_list, fn elem -> elem != "*" end)
-    "<li>#{join_words_with_tags(filtered_list)}</li>"
+  defp parse_row("*", word_list) do
+    filtered_list = Enum.filter(word_list, &(&1 != "*" ))
+
+    "<li>#{replace_tags(filtered_list)}</li>"
   end
 
-  defp parse_md_level(_, word_list) do
-    "<p>#{join_words_with_tags(word_list)}</p>"
+  defp parse_row(_, word_list) do
+    "<p>#{replace_tags(word_list)}</p>"
   end
 
-  defp join_words_with_tags(t) do
-    Enum.join(t, " ") |> replace_tags
-  end
-
-  defp replace_tags(text) do
-    String.replace(text, ~r/\__(.*?)\__/, "<strong>\\1</strong>")
+  defp replace_tags(words) do
+    Enum.join(words, " ")
+      |> String.replace(~r/\__(.*?)\__/, "<strong>\\1</strong>")
       |> String.replace(~r/\_(.*?)\_/, "<em>\\1</em>")
   end
 
-  defp patch(l) do
-    String.replace_suffix(
-      String.replace(l, "<li>", "<ul>" <> "<li>", global: false),
-      "</li>",
-      "</li>" <> "</ul>"
-    )
+  defp patch(list) do
+    String.replace(list, ~r/<li>.*<\/li>/, "<ul>\\0</ul>")
   end
 end
