@@ -13,9 +13,8 @@ defmodule Markdown do
   @spec parse(String.t()) :: String.t()
   def parse(markdown) do
     String.split(markdown, "\n")
-      |> Enum.map(&process/1)
-      |> Enum.join
-      |> patch
+      |> Enum.map_join("", &process/1)
+      |> patch_list
   end
 
   defp process(text) do
@@ -45,7 +44,7 @@ defmodule Markdown do
       |> String.replace(~r/\_(.*?)\_/, "<em>\\1</em>")
   end
 
-  defp patch(list) do
+  defp patch_list(list) do
     String.replace(list, ~r/<li>.*<\/li>/, "<ul>\\0</ul>")
   end
 end
